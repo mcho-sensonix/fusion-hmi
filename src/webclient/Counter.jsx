@@ -11,7 +11,6 @@ function Counter() {
 
   return (
     <Center>
-
       <Grid span={12}>
         <Grid.Col span={12}>
           <h1>Line 1 Station 1 Part Count</h1>
@@ -29,15 +28,7 @@ function Counter() {
           </Group>
         </Grid.Col>
       </Grid>
-</Center>
-    // <Group position="center" direction="column">
-    //     <Text size="xl">Count: {count}</Text>
-    //     <Group>
-    //         <Button onClick={decrement}>Decrement</Button>
-    //         <Button onClick={increment}>Increment</Button>
-    //         <Button onClick={reset}>Reset</Button>
-    //     </Group>
-    // </Group>
+    </Center>
   );
 }
 export default Counter;
