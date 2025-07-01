@@ -29,15 +29,7 @@ function Counter() {
           </Group>
         </Grid.Col>
       </Grid>
-</Center>
-    // <Group position="center" direction="column">
-    //     <Text size="xl">Count: {count}</Text>
-    //     <Group>
-    //         <Button onClick={decrement}>Decrement</Button>
-    //         <Button onClick={increment}>Increment</Button>
-    //         <Button onClick={reset}>Reset</Button>
-    //     </Group>
-    // </Group>
+    </Center>
   );
 }
 export default Counter;
