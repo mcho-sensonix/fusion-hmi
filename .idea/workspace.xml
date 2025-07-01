@@ -5,11 +5,38 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="064ada7f-a6ec-48c7-83f7-ef7d7fd4324f" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/webclient/Counter.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/webclient/Counter.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fusion-app/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fusion-app/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fusion-app/eslint.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fusion-app/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fusion-app/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fusion-app/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fusion-app/public/vite.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fusion-app/src/App.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fusion-app/src/App.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fusion-app/src/assets/react.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fusion-app/src/index.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fusion-app/src/main.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fusion-app/src/webclient/Counter.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fusion-app/src/webclient/Counter.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fusion-app/vite.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/favicon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/logo192.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/logo512.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/manifest.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/robots.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.test.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/logo.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/reportWebVitals.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/setupTests.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webclient/Counter.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/webclient/Counter.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/webclient/Counter.js" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,7 +72,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "code.cleanup.on.save": "true",
-    "git-widget-placeholder": "mock-ui-vite",
+    "git-widget-placeholder": "Merging mock-ui-vite",
     "junie.onboarding.icon.badge.shown": "true",
     "last_opened_file_path": "/Users/mcho/Documents/sxi/bannertools/fusion-hmi",
     "node.js.detected.package.eslint": "true",

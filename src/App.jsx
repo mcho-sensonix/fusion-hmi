@@ -24,12 +24,6 @@ const App = () => {
       </AppShell.Header>
       <AppShell.Navbar p="md">Navbar</AppShell.Navbar>
       <AppShell.Main>
-        {/*<ActionIcon onClick={toggleDesktop} >*/}
-        {/*  <IconMenu2 stroke={2} />*/}
-        {/*</ActionIcon>*/}
-        {/*<ActionIcon onClick={toggleMobile} hiddenFrom="sm">*/}
-        {/*  <IconMenu2 stroke={2} />*/}
-        {/*</ActionIcon>*/}
         <Counter/>
       </AppShell.Main>
     </AppShell>
