@@ -1,4 +1,4 @@
-import Counter from './webclient/Counter';
+import Counter from './components/counter/Counter.jsx';
 import { MantineProvider,Center, AppShell,Burger, Button, ActionIcon } from '@mantine/core';
 import '@mantine/core/styles.css';
 import {useDisclosure} from "@mantine/hooks";
