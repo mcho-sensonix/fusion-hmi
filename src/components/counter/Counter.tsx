@@ -11,7 +11,7 @@ function Counter() {
 
   return (
     <Center>
-      <Grid span={12}>
+      <Grid>
         <Grid.Col span={12}>
           <h1>Line 1 Station 1 Part Count</h1>
         </Grid.Col>
