@@ -7,7 +7,6 @@ import {LineGraph} from "../components/graphs/LineGraph.tsx";
 import React, {useState} from "react";
 
 export function ModulesPage() {
- const [opened, { toggle }] = useDisclosure();
  const [inputValue, setInputValue] = useState('');
  const [graphData, setGraphData] = useState([{x: 0, y: 0}]);
  const handleInputChange = (event:any) => {
@@ -29,11 +28,32 @@ export function ModulesPage() {
      }
   }catch(error) {
    console.error(error);
-
   }
-
   setInputValue('');
  }
+
+ const handlePollSubmit = () => {
+  try{
+   const graphDataValues = graphData?.map(item => item?.y)
+   const max = Math.max(...graphDataValues)
+   const min  = Math.min(...graphDataValues)
+   const randomValue  = max==min? Math.floor(Math.random() * (10)) + 1:
+     Math.floor(Math.random() * (max - min)) + min
+   console.log(max, min, randomValue)
+   setGraphData(
+     [...graphData,
+      {
+       x:graphData?.[graphData?.length-1]?.x +1,
+       y:randomValue
+      }
+     ]
+   );
+  }catch(error) {
+   console.error(error);
+  }
+  setInputValue('');
+ }
+
  return (
    <Grid>
     <Grid.Col span={12}>
@@ -46,6 +66,8 @@ export function ModulesPage() {
        onChange={handleInputChange}
      />
      <Button onClick={handleSubmit} >Add</Button>
+     <div></div>
+     <Button onClick={handlePollSubmit} >Poll</Button>
      <LineGraph data={graphData}/>
     </Grid.Col>
     <Grid.Col span={12} h={140}/>
