@@ -30,12 +30,14 @@ export default function App() {
         component={Link}
         to="/"
         label="Overview"
+        onClick={toggle}
         // leftSection={<IconHome2 size={16} stroke={1.5} />}
       />
       <NavLink
         component={Link}
         to="/modules"
         label="Modules"
+        onClick={toggle}
         // leftSection={<IconHome2 size={16} stroke={1.5} />}
       />
      </AppShell.Navbar>
