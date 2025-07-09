@@ -1,6 +1,5 @@
 import {useDisclosure} from "@mantine/hooks";
-import {ActionIcon, AppShell, Input, Button, Grid, Text, Group} from "@mantine/core";
-import {IconCaretDownFilled, IconCaretUpFilled, IconMenu2} from "@tabler/icons-react";
+import {ActionIcon, AppShell, Input, Button, Grid, Text, Group, GridCol} from "@mantine/core";
 // import Counter from "../components/counter/Counter.tsx";
 import {CompositeGraph} from "../components/graphs/CompositeGraph.tsx";
 import {LineGraph} from "../components/graphs/LineGraph.tsx";
@@ -65,11 +64,17 @@ export function ModulesPage() {
        value={inputValue}
        onChange={handleInputChange}
      />
-     <Button onClick={handleSubmit} >Add</Button>
-     <div></div>
-     <Button onClick={handlePollSubmit} >Poll</Button>
+    </Grid.Col>
+    <Grid.Col span={3}>
+     <Button onClick={handleSubmit} size={"xl"} autoContrast={true}>Add</Button>
+     </Grid.Col>
+    <Grid.Col span={3}>
+     <Button onClick={handlePollSubmit} size={"xl"} autoContrast={true}>Poll</Button>
+    </Grid.Col>
+    <Grid.Col span={12}>
      <LineGraph data={graphData}/>
     </Grid.Col>
+
     <Grid.Col span={12} h={140}/>
     <Grid.Col span={12}>
      <CompositeGraph/>
