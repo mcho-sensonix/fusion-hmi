@@ -11,6 +11,8 @@ export function ModulesPage() {
  const [inputValue, setInputValue] = useState('');
  const [graphData, setGraphData] = useState([{x: 0, y: 0}]);
  const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
+ const [layout, setLayout] = useState("default");
+
  const keyboardRef = useRef(null);
  const keyboardContainerRef = useRef(null);
  const handleInputChange = (event:any) => {
@@ -67,14 +69,15 @@ export function ModulesPage() {
  }
  const onKeyPress = (button) => {
   if (button === '{shift}' || button === '{lock}') {
-   keyboardRef.current.setOptions({
-    layoutName: keyboardRef.current.options.layoutName === 'default' ? 'shift' : 'default',
-   });
+   const newLayoutName = layout === "default" ? "shift" : "default";
+   setLayout(newLayoutName);
   }
  };
 
  useEffect(() => {
-  const handleClickOutside = (event) => {if (keyboardContainerRef.current && !keyboardContainerRef.current.contains(event.target) && event.target.nodeName !== 'INPUT') {
+  const handleClickOutside = (event) => {
+   // @ts-ignore
+   if (keyboardContainerRef?.current && !keyboardContainerRef?.current?.contains(event.target)) {
     setIsKeyboardOpen(false);
    }
   };
@@ -102,12 +105,11 @@ export function ModulesPage() {
        <Affix position={{bottom:0}} style={{width:'100%'}} ref={keyboardContainerRef}>
         <Keyboard
           keyboardRef={(r) => (keyboardRef.current = r)}
-          // ref={keyboardRef}
           onChange={handleKeyboardInputChange}
           onKeyPress={onKeyPress}
-          layoutName={'default'} // Or 'shift', 'numeric', etc
-
-     /></Affix>)}
+          layoutName={layout}
+        />
+       </Affix>)}
 
 
     </Grid.Col>
