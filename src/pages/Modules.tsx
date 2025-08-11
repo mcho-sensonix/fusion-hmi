@@ -1,13 +1,18 @@
+import React, {useState, useRef, useEffect} from "react";
 import {useDisclosure} from "@mantine/hooks";
-import {ActionIcon, AppShell, Input, Button, Grid, Text, Group, GridCol} from "@mantine/core";
+import {ActionIcon, AppShell, Input, Button, Grid, Text, Group, GridCol, Affix} from "@mantine/core";
 // import Counter from "../components/counter/Counter.tsx";
 import {CompositeGraph} from "../components/graphs/CompositeGraph.tsx";
 import {LineGraph} from "../components/graphs/LineGraph.tsx";
-import React, {useState} from "react";
+import Keyboard from 'react-simple-keyboard';
+import 'react-simple-keyboard/build/css/index.css';
 
 export function ModulesPage() {
  const [inputValue, setInputValue] = useState('');
  const [graphData, setGraphData] = useState([{x: 0, y: 0}]);
+ const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
+ const keyboardRef = useRef(null);
+ const keyboardContainerRef = useRef(null);
  const handleInputChange = (event:any) => {
   setInputValue(event.target.value);
  }
@@ -31,6 +36,11 @@ export function ModulesPage() {
   setInputValue('');
  }
 
+ const handleClear = () => {
+  setInputValue('');
+ }
+
+
  const handlePollSubmit = () => {
   try{
    const graphDataValues = graphData?.map(item => item?.y)
@@ -52,6 +62,29 @@ export function ModulesPage() {
   }
   setInputValue('');
  }
+ const handleKeyboardInputChange = (value) => {
+  setInputValue(value);
+ }
+ const onKeyPress = (button) => {
+  if (button === '{shift}' || button === '{lock}') {
+   keyboardRef.current.setOptions({
+    layoutName: keyboardRef.current.options.layoutName === 'default' ? 'shift' : 'default',
+   });
+  }
+ };
+
+ useEffect(() => {
+  const handleClickOutside = (event) => {if (keyboardContainerRef.current && !keyboardContainerRef.current.contains(event.target) && event.target.nodeName !== 'INPUT') {
+    setIsKeyboardOpen(false);
+   }
+  };
+
+  document.addEventListener('mousedown', handleClickOutside);
+
+  return () => {
+   document.removeEventListener('mousedown', handleClickOutside);
+  };
+ }, []);
 
  return (
    <Grid>
@@ -63,11 +96,27 @@ export function ModulesPage() {
        placeholder="Enter value"
        value={inputValue}
        onChange={handleInputChange}
+       onFocus={() => setIsKeyboardOpen(true)}
      />
+     {isKeyboardOpen && (
+       <Affix position={{bottom:0}} style={{width:'100%'}} ref={keyboardContainerRef}>
+        <Keyboard
+          keyboardRef={(r) => (keyboardRef.current = r)}
+          // ref={keyboardRef}
+          onChange={handleKeyboardInputChange}
+          onKeyPress={onKeyPress}
+          layoutName={'default'} // Or 'shift', 'numeric', etc
+
+     /></Affix>)}
+
+
     </Grid.Col>
     <Grid.Col span={3}>
      <Button onClick={handleSubmit} size={"xl"} autoContrast={true}>Add</Button>
      </Grid.Col>
+    <Grid.Col span={3}>
+     <Button onClick={handleClear} size={"xl"} autoContrast={true}>Clear</Button>
+    </Grid.Col>
     <Grid.Col span={3}>
      <Button onClick={handlePollSubmit} size={"xl"} autoContrast={true}>Poll</Button>
     </Grid.Col>
