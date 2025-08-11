@@ -10,25 +10,24 @@ function Counter() {
   const reset = () => setCount(0);
 
   return (
-    <Center>
+
       <Grid>
         <Grid.Col span={12}>
           <h1>Line 1 Station 1 Part Count</h1>
         </Grid.Col>
-        <Grid.Col span={12}><Text size="xl">Count: {count}</Text></Grid.Col>
+        <Grid.Col span={6}><Text size="xl">Count: {count}</Text></Grid.Col>
         <Grid.Col span={12}>
           <Group>
-            <ActionIcon onClick={increment}>
+            <ActionIcon size="xl" onClick={increment}>
               <IconCaretUpFilled />
             </ActionIcon>
-            <ActionIcon onClick={decrement}>
+            <ActionIcon size="xl" onClick={decrement}>
               <IconCaretDownFilled />
             </ActionIcon>
-            <Button onClick={reset}>Reset</Button>
+            <Button size="xl" onClick={reset}>Reset</Button>
           </Group>
         </Grid.Col>
       </Grid>
-    </Center>
   );
 }
 export default Counter;
