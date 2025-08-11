@@ -72,6 +72,10 @@ export function ModulesPage() {
    const newLayoutName = layout === "default" ? "shift" : "default";
    setLayout(newLayoutName);
   }
+  else if (button === '{enter}') {
+   handleSubmit();
+   setIsKeyboardOpen(false);
+  }
  };
 
  useEffect(() => {
@@ -107,6 +111,7 @@ export function ModulesPage() {
           keyboardRef={(r) => (keyboardRef.current = r)}
           onChange={handleKeyboardInputChange}
           onKeyPress={onKeyPress}
+          useTouchEvents={true}
           layoutName={layout}
         />
        </Affix>)}
