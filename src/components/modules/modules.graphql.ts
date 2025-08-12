@@ -1,4 +1,4 @@
-import { gql } from "@urql/core";
+import {gql} from "@urql/core";
 
 export const getSignalQuery = gql`
     query getSignal(
@@ -37,16 +37,17 @@ export const getSignalsQuery = gql`
             id
             name
             properties
+            fullPath
             MostRecentSample {
                 timestamp
                 arrival_timestamp
                 value
             }
-               {
+            sample_results_for_graph{
                 samples
                 start_time
             }
-            
+
         }
     }
 `;
@@ -57,33 +58,45 @@ export const getFilteredSignalsQuery = gql`
             id
             name
             properties
+            fullPath
             sample_results_for_graph{
                 samples
                 start_time
+            }
+            MostRecentSample {
+                value
             }
         }
     }`
 
 export const getFilteredGroupsQuery = gql`
     query getFilteredGroups ($parentGroup: GroupPath!, $filter: PropertiesFilterInput) {
-    getFilteredGroups(input: $filter, parentGroup: $parentGroup) {
-        id
-        name
-        properties
-        
-    }
-}`
+        getFilteredGroups(input: $filter, parentGroup: $parentGroup) {
+            id
+            name
+            properties
+            fullPath
+
+        }
+    }`
 
 export const replicateRemoteSignalQuery = gql`
-    query replicateRemoteSignals ($signalPath: SignalPath!) {
-    replicateRemoteSignals(signal: $filter, parentGroup: $parentGroup) {
-        id
-        name
-        properties
-        
-    }
-}`
+    mutation replicateRemoteSignal ($signal: SignalPath!) {
+        replicateRemoteSignal(signal:$signal)
+    }`
 
-// replicateRemoteSignal(
-//   signal: SignalPath!
-// ): Boolean!
+
+export const insertSampleQuery = gql`
+    mutation insertSample ($signal: SignalPath!, $sample: InsertableSampleInput!) {
+        insertSample(
+            signal: $signal,
+            sample: $sample
+        ) {
+            signal_id
+            timestamp
+            arrival_timestamp
+            value
+            type
+        }
+    }`
+

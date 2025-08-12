@@ -1,5 +1,6 @@
 // theme.ts
 import {
+ colorsTuple,
  createTheme,
  DEFAULT_THEME,
  mergeMantineTheme,
@@ -7,19 +8,7 @@ import {
 
 const themeOverride = createTheme({
  colors: {
-  bannerYellow: [
-   '#FFD600',
-   '#FFD600',
-   '#FFD600',
-   '#FFD600',
-   '#FFD600',
-   '#FFD600',
-   '#FFD600',
-   '#FFD600',
-   '#FFD600',
-   '#FFD600',
-   '#FFD600',
-  ],
+  bannerYellow: colorsTuple('#FFD600')
  },
  primaryColor: 'bannerYellow',
  defaultRadius: 0,
