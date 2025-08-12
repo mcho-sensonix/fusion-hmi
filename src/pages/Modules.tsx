@@ -4,7 +4,6 @@ import {ActionIcon, AppShell, Input, Button, Grid, Text, Group, GridCol, Paper, 
 // import Counter from "../components/counter/Counter.tsx";
 import {CompositeGraph} from "../components/graphs/CompositeGraph.tsx";
 import {LineGraph} from "../components/graphs/LineGraph.tsx";
-import React, {useState} from "react";
 import {IconMenu2} from "@tabler/icons-react";
 import {Link} from "react-router-dom";
 import {StatsGrid} from "../components/stats/StatsGrid.tsx";
