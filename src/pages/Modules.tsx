@@ -70,7 +70,7 @@ export function ModulesPage() {
       <Grid>
        {cardsData.map((card, index) => (
          <Grid.Col key={index} span={{base: 12, sm: 6, md: 4, lg: 3}}>
-          <Paper component="a" href={`/modules/${card.id}`} shadow="sm" radius="md" withBorder>
+          <Paper component={Link} to={`/modules/${card.id}`} shadow="sm" radius="md" withBorder>
            {/* Card content goes here */}
            <h3>{card.title}</h3>
            <p>{card.description}</p>
