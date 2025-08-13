@@ -15,7 +15,6 @@ const modulesData = [
  {id: 2, title: "Module 1", desription: "", type: "gauge"},
 ]
 
-
 export function ModuleDetailsPage() {
  const {templateId} = useParams();
  console.log('temp', templateId);
@@ -41,10 +40,10 @@ export function ModuleDetailsPage() {
       </ActionIcon>
       <Button
         component="a" // Renders the Button as an <a> tag
-        style={{color: "#000000"}}
+        style={{color: "#000000", position: "absolute", right: 0}}
         href={`/modules/${moduleData?.id}/configuration`} // The URL for your settings page
       >
-       Settings
+       Configure
       </Button>
      </AppShell.Header>
      <AppShell.Navbar p="md">

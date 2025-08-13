@@ -233,13 +233,14 @@ export function GraphsModule({groupPath}) {
  return (
    <Grid>
     <Grid.Col span={12}>
-     <h1>{signalsData?.getSignals?.[0]?.fullPath}</h1>
+     <h1>{signalsData?.getSignals?.[0]?.name}</h1>
     </Grid.Col>
     <Grid.Col span={6}>
-     {<LineGraph
+     {
+      <LineGraph
        data={graphData.length > 0 ? graphData : signalsData?.getSignals?.[0]?.sample_results_for_graph?.samples}
-       name={signalsData?.getSignals?.[0]?.fullPath ?? 'null'}/>}
-
+       name={signalsData?.getSignals?.[0]?.fullPath ?? 'null'}/>
+    }
     </Grid.Col>
     <Grid.Col span={6}>
      <Autocomplete
@@ -267,6 +268,7 @@ export function GraphsModule({groupPath}) {
           onChange={handleKeyboardInputChange}
           onKeyPress={onKeyPress}
           useTouchEvents={true}
+          useMouseEvents={true}
           layoutName={layout}
         />
        </Affix>)}

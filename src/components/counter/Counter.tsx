@@ -1,6 +1,6 @@
 // import './Counter.css';
 import {Group, Button, Text, Grid, Center, GridCol, ActionIcon} from '@mantine/core';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {IconCaretUpFilled, IconCaretDownFilled} from '@tabler/icons-react';
 import {useLazyQuery, useMutation, useQuery} from "@apollo/client";
 import {getFilteredSignalsQuery, getSignalsQuery, insertSampleQuery} from "../modules/modules.graphql.ts";
@@ -79,6 +79,14 @@ function Counter() {
    }, fetchPolicy: 'network-only'
   });
  }
+  
+ useEffect(() => {
+      getSignalsData({
+   variables: {
+    signals: ['/a-trak-ou56/c-2000/c-2001/fa51abf1-c0d2-4eb6-bc14-a0945581fa61/ZV',]
+   }, fetchPolicy: 'cache-and-network'
+  });
+  }, []);
 
  return (
 
