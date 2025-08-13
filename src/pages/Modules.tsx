@@ -1,140 +1,85 @@
 import React, {useState, useRef, useEffect} from "react";
 import {useDisclosure} from "@mantine/hooks";
-import {ActionIcon, AppShell, Input, Button, Grid, Text, Group, GridCol, Affix} from "@mantine/core";
+import {ActionIcon, AppShell, Input, Button, Grid, Text, Group, GridCol, Paper, NavLink} from "@mantine/core";
 // import Counter from "../components/counter/Counter.tsx";
 import {CompositeGraph} from "../components/graphs/CompositeGraph.tsx";
 import {LineGraph} from "../components/graphs/LineGraph.tsx";
-import Keyboard from 'react-simple-keyboard';
-import 'react-simple-keyboard/build/css/index.css';
+import {IconMenu2} from "@tabler/icons-react";
+import {Link} from "react-router-dom";
+import {StatsGrid} from "../components/stats/StatsGrid.tsx";
+import {StatsSegments} from "../components/stats/StatsSegments.tsx";
+import {Router} from "../Router.tsx";
+import {gql} from "@urql/core";
+import {useLazyQuery, useQuery} from "@apollo/client";
+import {getFilteredGroupsQuery, getSignalsQuery} from "../components/modules/modules.graphql.ts";
 
 export function ModulesPage() {
- const [inputValue, setInputValue] = useState('');
- const [graphData, setGraphData] = useState([{x: 0, y: 0}]);
- const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
- const [layout, setLayout] = useState("default");
+ const [opened, {toggle}] = useDisclosure();
 
- const keyboardRef = useRef(null);
- const keyboardContainerRef = useRef(null);
- const handleInputChange = (event:any) => {
-  setInputValue(event.target.value);
- }
- const handleSubmit = () => {
-  try{
-   const parsedValue = parseInt(inputValue)
-
-     if (parsedValue || parsedValue === 0 ){
-      setGraphData(
-        [...graphData,
-         {
-          x:graphData?.[graphData?.length-1]?.x +1,
-          y:parsedValue
-         }
-        ]
-      );
-     }
-  }catch(error) {
-   console.error(error);
+ const {data, error, loading} = useQuery(getFilteredGroupsQuery, {
+  variables: {
+   parentGroup: '/remote/a-trak-ou56/c-2000/c-2001/fa51abf1-c0d2-4eb6-bc14-a0945581fa61/',
+   filter: {key: "__", exists: false}
   }
-  setInputValue('');
- }
+ })
 
- const handleClear = () => {
-  setInputValue('');
- }
-
-
- const handlePollSubmit = () => {
-  try{
-   const graphDataValues = graphData?.map(item => item?.y)
-   const max = Math.max(...graphDataValues)
-   const min  = Math.min(...graphDataValues)
-   const randomValue  = max==min? Math.floor(Math.random() * (10)) + 1:
-     Math.floor(Math.random() * (max - min)) + min
-   console.log(max, min, randomValue)
-   setGraphData(
-     [...graphData,
-      {
-       x:graphData?.[graphData?.length-1]?.x +1,
-       y:randomValue
-      }
-     ]
-   );
-  }catch(error) {
-   console.error(error);
-  }
-  setInputValue('');
- }
- const handleKeyboardInputChange = (value) => {
-  setInputValue(value);
- }
- const onKeyPress = (button) => {
-  if (button === '{shift}' || button === '{lock}') {
-   const newLayoutName = layout === "default" ? "shift" : "default";
-   setLayout(newLayoutName);
-  }
-  else if (button === '{enter}') {
-   handleSubmit();
-   setIsKeyboardOpen(false);
-  }
- };
-
- useEffect(() => {
-  const handleClickOutside = (event) => {
-   // @ts-ignore
-   if (keyboardContainerRef?.current && !keyboardContainerRef?.current?.contains(event.target)) {
-    setIsKeyboardOpen(false);
-   }
-  };
-
-  document.addEventListener('mousedown', handleClickOutside);
-
-  return () => {
-   document.removeEventListener('mousedown', handleClickOutside);
-  };
- }, []);
-
+ const cardsData = [
+  {id: 1, title: "Module 1", desription: ""},
+  {id: 2, title: "Module 2", description: ""},
+  {id: 3, title: "Module 3", description: ""},
+  {id: 4, title: "Module 4", desription: ""},
+  {id: 5, title: "Module 1", desription: ""},
+  {id: 6, title: "Module 1", desription: ""}];
  return (
-   <Grid>
-    <Grid.Col span={12}>
-     <h1>Line 1 Station 1 Part Count</h1>
-    </Grid.Col>
-    <Grid.Col span={12}>
-     <Input
-       placeholder="Enter value"
-       value={inputValue}
-       onChange={handleInputChange}
-       onFocus={() => setIsKeyboardOpen(true)}
-     />
-     {isKeyboardOpen && (
-       <Affix position={{bottom:0}} style={{width:'100%'}} ref={keyboardContainerRef}>
-        <Keyboard
-          keyboardRef={(r) => (keyboardRef.current = r)}
-          onChange={handleKeyboardInputChange}
-          onKeyPress={onKeyPress}
-          useTouchEvents={true}
-          layoutName={layout}
-        />
-       </Affix>)}
+   // <Counter/>
+   <>
+    <AppShell
+      header={{height: 60}}
+      navbar={{
+       width: 300,
+       breakpoint: 1300,
+       collapsed: {mobile: !opened},
+      }}
+      padding="md"
+    >
 
+     <AppShell.Header>
+      <ActionIcon onClick={toggle} size={"xl"}>
+       <IconMenu2 stroke={2}/>
+      </ActionIcon>
 
-    </Grid.Col>
-    <Grid.Col span={3}>
-     <Button onClick={handleSubmit} size={"xl"} autoContrast={true}>Add</Button>
-     </Grid.Col>
-    <Grid.Col span={3}>
-     <Button onClick={handleClear} size={"xl"} autoContrast={true}>Clear</Button>
-    </Grid.Col>
-    <Grid.Col span={3}>
-     <Button onClick={handlePollSubmit} size={"xl"} autoContrast={true}>Poll</Button>
-    </Grid.Col>
-    <Grid.Col span={12}>
-     <LineGraph data={graphData}/>
-    </Grid.Col>
+     </AppShell.Header>
+     <AppShell.Navbar p="md">
+      <NavLink
+        component={Link}
+        to="/"
+        label="Overview"
+        onClick={toggle}
+        // leftSection={<IconHome2 size={16} stroke={1.5} />}
+      />
+      <NavLink
+        component={Link}
+        to="/modules"
+        label="Modules"
+        onClick={toggle}
+        // leftSection={<IconHome2 size={16} stroke={1.5} />}
+      />
+     </AppShell.Navbar>
+     <AppShell.Main>
 
-    <Grid.Col span={12} h={140}/>
-    <Grid.Col span={12}>
-     <CompositeGraph/>
-    </Grid.Col>
-   </Grid>
+      <Grid>
+       {cardsData.map((card, index) => (
+         <Grid.Col key={index} span={{base: 12, sm: 6, md: 4, lg: 3}}>
+          <Paper component="a" href={`/modules/${card.id}`} shadow="sm" padding="lg" radius="md" withBorder>
+           {/* Card content goes here */}
+           <h3>{card.title}</h3>
+           <p>{card.description}</p>
+          </Paper>
+         </Grid.Col>
+       ))}
+      </Grid>
+     </AppShell.Main>
+    </AppShell>
+   </>
  );
-};
+}
