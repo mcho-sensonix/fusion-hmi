@@ -74,10 +74,6 @@ export function GraphsModule({groupPath}) {
       signals: [signalsData?.getSignals?.[0]?.fullPath]
      }, fetchPolicy: 'cache-and-network'
     });
-    // console.log('new Dara', signalsData?.getSignals?.[0]?.sample_results_for_graph?.samples)
-    // if (!signalsLoading) setGraphData(
-    //   signalsData?.getSignals?.[0]?.sample_results_for_graph?.samples
-    // );
 
    }
   } catch (error) {
@@ -90,15 +86,13 @@ export function GraphsModule({groupPath}) {
   try {
    const graphDataValues = signalsData?.getSignals?.[0]?.sample_results_for_graph?.samples?.map(item => {
     const key = signalsData?.getSignals?.[0]?.fullPath
-    console.log(item, item?.[key])
+
     return item?.[key]
    })?.filter(item => item != 'NaN' && !isNaN(item))
-   console.log('graphDataValues', graphDataValues, graphData)
    const max = Math.max(...graphDataValues)
    const min = Math.min(...graphDataValues)
    const randomValue = max == min ? Math.floor(Math.random() * (10)) + 1 :
      Math.floor(Math.random() * (max - min)) + min
-   console.log(max, min, randomValue)
 
    await insertSample({
     variables: {
@@ -111,9 +105,7 @@ export function GraphsModule({groupPath}) {
      signals: [signalsData?.getSignals?.[0]?.fullPath]
     }, fetchPolicy: 'cache-and-network'
    });
-   console.log('new Dara', signalsData?.getSignals?.[0]?.sample_results_for_graph?.samples)
-   console.log('graphDataValues', signalsData?.getSignals?.[0]?.sample_results_for_graph?.samples)
-   setGraphData(
+  setGraphData(
      signalsData?.getSignals?.[0]?.sample_results_for_graph?.samples
    );
   } catch (error) {
@@ -130,7 +122,6 @@ export function GraphsModule({groupPath}) {
   const handleClear = () => {
   setInputValue('');
  }
- // console.log('signal path', signalPaths)
 
  const handleSignalPathInputChange = (value: any) => {
   setInputPathValue(value);
@@ -142,7 +133,6 @@ export function GraphsModule({groupPath}) {
    //    {signal: inputValue}
    //   ]
    // );
-   console.log(inputPathValue)
    if (!signalPaths.includes(inputPathValue) && inputPathValue && !inputPathValue.endsWith('/') && typeof inputValue === 'string') {
     // TODO: store all signals
     // setSignalPaths([...signalPaths, inputPathValue.slice(7)]);
@@ -228,8 +218,6 @@ export function GraphsModule({groupPath}) {
  //   { getSamplesRequestInput },
  // )
  // .toPromise();
- console.log('signalsData', signalsData?.getSignals?.[0])
- console.log('graphData', graphData)
  return (
    <Grid>
     <Grid.Col span={12}>

@@ -2,7 +2,6 @@ import {LineChart} from '@mantine/charts';
 
 export function LineGraph(props) {
  const {data, name} = props;
- console.log('sup', data);
  return (
    <LineChart
      h={300}

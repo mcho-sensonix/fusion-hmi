@@ -17,11 +17,9 @@ const modulesData = [
 
 export function ModuleDetailsPage() {
  const {templateId} = useParams();
- console.log('temp', templateId);
  const [opened, {toggle}] = useDisclosure();
  // const cardsData = [{title: "Module 1", desription: ""}, {title: "Module 2", description:""}, {title: "Module 3", description:""}, {title: "Module 4", desription: ""}, {title: "Module 1", desription: ""}, {title: "Module 1", desription: ""}];
  const moduleData = templateId ? modulesData.find((module) => module.id == parseInt(templateId)) : null;
- console.log('moduleData', moduleData);
 
  return (
    <>

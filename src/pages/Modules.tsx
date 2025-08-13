@@ -15,18 +15,13 @@ import {getFilteredGroupsQuery, getSignalsQuery} from "../components/modules/mod
 
 export function ModulesPage() {
  const [opened, {toggle}] = useDisclosure();
- // const [getSignalsData, { data, error, loading }] = useLazyQuery(
- //   getSignalsQuery,
- //   {variables: {signals: signalPaths}}
- // );
- // console.log('here0', data, error);
+
  const {data, error, loading} = useQuery(getFilteredGroupsQuery, {
   variables: {
    parentGroup: '/remote/a-trak-ou56/c-2000/c-2001/fa51abf1-c0d2-4eb6-bc14-a0945581fa61/',
    filter: {key: "__", exists: false}
   }
  })
- console.log('modules', data)
 
  const cardsData = [
   {id: 1, title: "Module 1", desription: ""},

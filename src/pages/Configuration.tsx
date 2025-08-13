@@ -31,7 +31,6 @@ import {
 export function ConfigurationPage() {
  const {templateId} = useParams();
 
- console.log('temp', templateId);
  const [opened, {toggle}] = useDisclosure();
  const [inputValue, setInputValue] = useState('');
  const [optionValues, setOptionValues] = useState([{}]);
@@ -58,7 +57,6 @@ export function ConfigurationPage() {
     }
    }
  );
- console.log('here0', signalsListData?.getFilteredSignals);
  // const [graphData, setGraphData] = useState([{x: 0, y: 0}]);
  const handleInputChange = (value: any) => {
   setInputValue(value);
@@ -78,7 +76,6 @@ export function ConfigurationPage() {
      }
     })
    }
-   console.log('remote', replicateSignalData)
   } catch (error) {
    console.error(error);
   }
