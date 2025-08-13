@@ -7,7 +7,7 @@ export default defineConfig({
  server: {
   proxy: {
    '/api': {
-    target: process.env.SIGNALS_GRAPHQL_ENDPONINT ?? 'http://localhost:7772/graphql',
+    target: process.env.SIGNALS_GRAPHQL_ENDPOINT ?? 'http://localhost:7772/graphql',
     headers: {"perms": "{\"root_group\": \"/a-trak-ou56/\",\"account_id\": \"3\",\"scope\": \"read write\"}"}
    }
   }
