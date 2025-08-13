@@ -37,9 +37,9 @@ export function ModuleDetailsPage() {
        <IconMenu2 stroke={2}/>
       </ActionIcon>
       <Button
-        component="a" // Renders the Button as an <a> tag
+        component={Link} // Renders the Button as an <a> tag
         style={{color: "#000000", position: "absolute", right: 0}}
-        href={`/modules/${moduleData?.id}/configuration`} // The URL for your settings page
+        to={`/modules/${moduleData?.id}/configuration`} // The URL for your settings page
       >
        Configure
       </Button>
