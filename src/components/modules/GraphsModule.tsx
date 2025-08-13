@@ -13,7 +13,7 @@ import 'react-simple-keyboard/build/css/index.css';
 
 // import {useQuery} from 'urql'
 
-export function GraphsModule({groupPath}) {
+export function GraphsModule(props) {
  const [inputValue, setInputValue] = useState('');
  const [graphData, setGraphData] = useState([]);
  const [inputPathValue, setInputPathValue] = useState<string>('');
@@ -105,7 +105,7 @@ export function GraphsModule({groupPath}) {
      signals: [signalsData?.getSignals?.[0]?.fullPath]
     }, fetchPolicy: 'cache-and-network'
    });
-  setGraphData(
+   setGraphData(
      signalsData?.getSignals?.[0]?.sample_results_for_graph?.samples
    );
   } catch (error) {
@@ -119,7 +119,7 @@ export function GraphsModule({groupPath}) {
 //    '/a-trak-ou56/c-2000/c-2001/', '$c5eb52ed-cea8-4966-bd32-14b0b7d7ebe3/signal_1', '$asdfasdf/asdf', '/a-asdf-asdf/c-asdf-asdf/c-asfasdf/asdf', '$asdfasdfadf/sdf', '$asdf/asdf']
 //  }
 
-  const handleClear = () => {
+ const handleClear = () => {
   setInputValue('');
  }
 
@@ -146,15 +146,14 @@ export function GraphsModule({groupPath}) {
   setInputPathValue('');
  }
 
-  const handleKeyboardInputChange = (value) => {
+ const handleKeyboardInputChange = (value) => {
   setInputValue(value);
  }
  const onKeyPress = (button) => {
   if (button === '{shift}' || button === '{lock}') {
    const newLayoutName = layout === "default" ? "shift" : "default";
    setLayout(newLayoutName);
-  }
-  else if (button === '{enter}') {
+  } else if (button === '{enter}') {
    handleSubmit();
    setIsKeyboardOpen(false);
   }
@@ -226,9 +225,9 @@ export function GraphsModule({groupPath}) {
     <Grid.Col span={6}>
      {
       <LineGraph
-       data={graphData.length > 0 ? graphData : signalsData?.getSignals?.[0]?.sample_results_for_graph?.samples}
-       name={signalsData?.getSignals?.[0]?.fullPath ?? 'null'}/>
-    }
+        data={graphData.length > 0 ? graphData : signalsData?.getSignals?.[0]?.sample_results_for_graph?.samples}
+        name={signalsData?.getSignals?.[0]?.fullPath ?? 'null'}/>
+     }
     </Grid.Col>
     <Grid.Col span={6}>
      <Autocomplete
@@ -250,16 +249,16 @@ export function GraphsModule({groupPath}) {
         onFocus={() => setIsKeyboardOpen(true)}
       />
       {isKeyboardOpen && (
-       <Affix position={{bottom:0}} style={{width:'100%'}} ref={keyboardContainerRef}>
-        <Keyboard
-          keyboardRef={(r) => (keyboardRef.current = r)}
-          onChange={handleKeyboardInputChange}
-          onKeyPress={onKeyPress}
-          useTouchEvents={true}
-          useMouseEvents={true}
-          layoutName={layout}
-        />
-       </Affix>)}
+        <Affix position={{bottom: 0}} style={{width: '100%'}} ref={keyboardContainerRef}>
+         <Keyboard
+           keyboardRef={(r) => (keyboardRef.current = r)}
+           onChange={handleKeyboardInputChange}
+           onKeyPress={onKeyPress}
+           useTouchEvents={true}
+           useMouseEvents={true}
+           layoutName={layout}
+         />
+        </Affix>)}
      </Grid.Col>
      <Grid.Col span={12}>
       <Group>
