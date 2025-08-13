@@ -33,7 +33,7 @@ export function ConfigurationPage() {
 
  const [opened, {toggle}] = useDisclosure();
  const [inputValue, setInputValue] = useState('');
- const [optionValues, setOptionValues] = useState([{}]);
+ const [optionValues, setOptionValues] = useState<{ signal: string }[]>();
  const [selectedRows, setSelectedRows] = useState<string[]>([]);
  const fetchedData = () => {
   return ['$asdfasdf/asdf', '/a-asdf-asdf/c-asdf-asdf/c-asfasdf/asdf', '$asdfasdfadf/sdf', '$asdf/asdf']
@@ -63,10 +63,10 @@ export function ConfigurationPage() {
  }
  const handleSubmit = async () => {
   try {
-   const existingSignals = new Set(optionValues.map(option => option.signal));
+   const existingSignals = new Set(optionValues?.map(option => option?.signal));
    if (!existingSignals.has(inputValue)) {
     setOptionValues(
-      [...optionValues,
+      [...(optionValues ?? []),
        {signal: inputValue}
       ]
     );
@@ -83,7 +83,7 @@ export function ConfigurationPage() {
  }
 
 
- const rows = optionValues.map((element) => (
+ const rows = optionValues?.map((element) => (
    <Table.Tr
      key={element.signal}
      bg={selectedRows.includes(element.signal) ? 'var(--mantine-color-blue-light)' : undefined}
