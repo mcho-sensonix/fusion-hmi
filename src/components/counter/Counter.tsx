@@ -24,7 +24,7 @@ function Counter() {
    getSignalsQuery,
    {
     variables: {
-     signals: `/a-trak-ou56/c-2000/c-2001/fa51abf1-c0d2-4eb6-bc14-a0945581fa61/ZV`
+     signals: `/a-trak-ou56/c-2000/c-2001/fa51abf1-c0d2-4eb6-bc14-a0945581fa61/Sensor1/ZV`
     }
    }
  );
@@ -40,14 +40,9 @@ function Counter() {
   setCount(newCount);
   await insertSample({
    variables: {
-    signal: '/a-trak-ou56/c-2000/c-2001/fa51abf1-c0d2-4eb6-bc14-a0945581fa61/ZV',
+    signal: '/a-trak-ou56/c-2000/c-2001/fa51abf1-c0d2-4eb6-bc14-a0945581fa61/Sensor1/ZV',
     sample: {value: (newCount).toString(), timestamp: new Date()},
    }
-  });
-  await getSignalsData({
-   variables: {
-    signals: ['/a-trak-ou56/c-2000/c-2001/fa51abf1-c0d2-4eb6-bc14-a0945581fa61/ZV',]
-   }, fetchPolicy: 'network-only'
   });
  }
  const decrement = async () => {
@@ -55,38 +50,28 @@ function Counter() {
   setCount(newCount);
   await insertSample({
    variables: {
-    signal: '/a-trak-ou56/c-2000/c-2001/fa51abf1-c0d2-4eb6-bc14-a0945581fa61/ZV',
+    signal: '/a-trak-ou56/c-2000/c-2001/fa51abf1-c0d2-4eb6-bc14-a0945581fa61/Sensor1/ZV',
     sample: {value: newCount.toString(), timestamp: new Date()},
    }
-  });
-  await getSignalsData({
-   variables: {
-    signals: ['/a-trak-ou56/c-2000/c-2001/fa51abf1-c0d2-4eb6-bc14-a0945581fa61/ZV',]
-   }, fetchPolicy: 'network-only'
   });
  }
  const reset = async () => {
   setCount(0)
   await insertSample({
    variables: {
-    signal: '/a-trak-ou56/c-2000/c-2001/fa51abf1-c0d2-4eb6-bc14-a0945581fa61/ZV',
+    signal: '/a-trak-ou56/c-2000/c-2001/fa51abf1-c0d2-4eb6-bc14-a0945581fa61/Sensor1/ZV',
     sample: {value: "0", timestamp: new Date()},
    }
   });
-  await getSignalsData({
-   variables: {
-    signals: ['/a-trak-ou56/c-2000/c-2001/fa51abf1-c0d2-4eb6-bc14-a0945581fa61/ZV',]
-   }, fetchPolicy: 'network-only'
-  });
  }
-  
+
  useEffect(() => {
-      getSignalsData({
+  getSignalsData({
    variables: {
-    signals: ['/a-trak-ou56/c-2000/c-2001/fa51abf1-c0d2-4eb6-bc14-a0945581fa61/ZV',]
+    signals: ['/a-trak-ou56/c-2000/c-2001/fa51abf1-c0d2-4eb6-bc14-a0945581fa61/Sensor1/ZV',]
    }, fetchPolicy: 'cache-and-network'
   });
-  }, []);
+ }, [count]);
 
  return (
 

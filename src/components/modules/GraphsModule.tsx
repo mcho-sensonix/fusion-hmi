@@ -1,6 +1,17 @@
 import {useDisclosure} from "@mantine/hooks";
-import {ActionIcon, AppShell, Input, Button, Grid, Text, Group, GridCol, Autocomplete, Affix} from "@mantine/core";
-// import Counter from "../components/counter/Counter.tsx";
+import {
+ ActionIcon,
+ AppShell,
+ Input,
+ Button,
+ Grid,
+ Text,
+ Group,
+ GridCol,
+ Autocomplete,
+ Affix,
+ Switch
+} from "@mantine/core";
 import {CompositeGraph} from "../graphs/CompositeGraph.tsx";
 import {LineGraph} from "../graphs/LineGraph.tsx";
 import React, {useState, useRef, useEffect} from "react";
@@ -19,6 +30,7 @@ export function GraphsModule(props) {
  const [inputPathValue, setInputPathValue] = useState<string>('');
  const [optionValues, setOptionValues] = useState([{}]);
  const [signalPaths, setSignalPaths] = useState<string[]>([]);
+ const [isPollingChecked, setIsPollingChecked] = useState(false);
 
  const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
  const [layout, setLayout] = useState("default");
@@ -39,12 +51,14 @@ export function GraphsModule(props) {
     }
    }
  );
- const [getSignalsData, {data: signalsData, error: signalsError, loading: signalsLoading}] = useLazyQuery(
+ const {data: signalsData, error: signalsError, loading: signalsLoading} = useQuery(
    getSignalsQuery,
    {
     variables: {
      signals: signalPaths
-    }
+    },
+    pollInterval: isPollingChecked ? 1000 : 0, // 0 -> doesn't poll, 1000 -> polls every second
+    skip: signalPaths?.length == 0
    }
  );
 
@@ -67,13 +81,6 @@ export function GraphsModule(props) {
       sample: {value: parsedValue.toString(), timestamp: new Date()},
      }
     });
-    await getSignalsData();
-
-    await getSignalsData({
-     variables: {
-      signals: [signalsData?.getSignals?.[0]?.fullPath]
-     }, fetchPolicy: 'cache-and-network'
-    });
 
    }
   } catch (error) {
@@ -83,34 +90,7 @@ export function GraphsModule(props) {
  }
 
  const handlePollSubmit = async () => {
-  try {
-   const graphDataValues = signalsData?.getSignals?.[0]?.sample_results_for_graph?.samples?.map(item => {
-    const key = signalsData?.getSignals?.[0]?.fullPath
-
-    return item?.[key]
-   })?.filter(item => item != 'NaN' && !isNaN(item))
-   const max = Math.max(...graphDataValues)
-   const min = Math.min(...graphDataValues)
-   const randomValue = max == min ? Math.floor(Math.random() * (10)) + 1 :
-     Math.floor(Math.random() * (max - min)) + min
-
-   await insertSample({
-    variables: {
-     signal: signalsData?.getSignals?.[0]?.fullPath,
-     sample: {value: randomValue.toString(), timestamp: new Date()},
-    }
-   });
-   await getSignalsData({
-    variables: {
-     signals: [signalsData?.getSignals?.[0]?.fullPath]
-    }, fetchPolicy: 'cache-and-network'
-   });
-   setGraphData(
-     signalsData?.getSignals?.[0]?.sample_results_for_graph?.samples
-   );
-  } catch (error) {
-   console.error(error);
-  }
+  setIsPollingChecked(!isPollingChecked);
   setInputValue('');
  }
 //  const fetchedData = () => {
@@ -138,7 +118,6 @@ export function GraphsModule(props) {
     // setSignalPaths([...signalPaths, inputPathValue.slice(7)]);
     setSignalPaths([inputPathValue.slice(7)]);
    }
-   await getSignalsData();
 
   } catch (error) {
    console.error(error);
@@ -175,57 +154,62 @@ export function GraphsModule(props) {
   };
  }, []);
 
+ useEffect(() => {
+  // Define an async function within useEffect to use await
+  const fetchData = async () => {
 
- // const {data,error, loading } =useQuery(getSignalsQuery, {
- //  variables: {signals: signalPaths}
- // })
+   try {
+    const graphDataValues = signalsData?.getSignals?.[0]?.sample_results_for_graph?.samples?.map(item => {
+     const key = signalsData?.getSignals?.[0]?.fullPath
+     return item?.[key]
+    })?.filter(item => item != 'NaN' && !isNaN(item)) ?? [];
+    const max = Math.max(...graphDataValues)
+    const min = Math.min(...graphDataValues)
+    const randomValue = max == min ? Math.floor(Math.random() * (10)) + 1 :
+      Math.floor(Math.random() * (max - min)) + min
+
+    await insertSample({
+     variables: {
+      signal: signalsData?.getSignals?.[0]?.fullPath,
+      sample: {value: randomValue.toString(), timestamp: new Date()},
+     }
+    });
+   } catch (error) {
+    console.error('Error inserting sample', error);
+   }
+  };
+
+  if (isPollingChecked) {
+   const interval = setInterval(fetchData, 2000); // Call the async function every second
+
+   // Cleanup function
+   return () => clearInterval(interval);
+  }
 
 
- // const result = await client.mutation(getSignalQuery, {
- //  signal: signalPath,
- // });
+ }, [isPollingChecked]);
 
- // const result = client.mutation(getFilteredSignalsQuery, {
- //  parentGroup: groupPath,
- //   filter: {
- //    "key": "__",
- //    "exists": false
- //   }
- //
- // }).toPromise();
-
-
- // const lineData = result?.data?.getSignals?.sample_results_for_graph
- // console.log(lineData, result
- // )
  const testPathString = `$c5eb52ed-cea8-4966-bd32-14b0b7d7ebe3/signal_1`
 
- // this.client
- // .query(
- //   graphql(`
- //       query GET_SAMPLES($getSamplesRequestInput: GetSamplesRequestInput!) {
- //           getSamples(GetSamplesRequestInput: $getSamplesRequestInput) {
- //               success
- //               sample_results {
- //                   start_time
- //                   t
- //                   v
- //               }
- //           }
- //       }
- //   `),
- //   { getSamplesRequestInput },
- // )
- // .toPromise();
  return (
    <Grid>
     <Grid.Col span={12}>
-     <h1>{signalsData?.getSignals?.[0]?.name}</h1>
+     <Group>
+      <Grid.Col span={9}><h1>{signalsData?.getSignals?.[0]?.name}</h1></Grid.Col>
+      <Grid.Col span={1}> <Switch
+        checked={isPollingChecked}
+        onChange={handlePollSubmit}
+        size={'xl'}
+        onLabel={"ON"} offLabel={"OFF"}
+        label={"Poll"}
+      />
+      </Grid.Col>
+     </Group>
     </Grid.Col>
     <Grid.Col span={6}>
      {
       <LineGraph
-        data={graphData.length > 0 ? graphData : signalsData?.getSignals?.[0]?.sample_results_for_graph?.samples}
+        data={signalsData?.getSignals?.[0]?.sample_results_for_graph?.samples}
         name={signalsData?.getSignals?.[0]?.fullPath ?? 'null'}/>
      }
     </Grid.Col>
@@ -264,7 +248,7 @@ export function GraphsModule(props) {
       <Group>
        <Button onClick={handleSubmit} size={"xl"} autoContrast={true}>Add</Button>
        <Button onClick={handleClear} size={"xl"} autoContrast={true}>Clear</Button>
-       <Button onClick={handlePollSubmit} size={"xl"} autoContrast={true}>Poll</Button>
+       {/*<Button onClick={handlePollSubmit} size={"xl"} autoContrast={true}>Poll</Button>*/}
       </Group>
 
      </Grid.Col>
