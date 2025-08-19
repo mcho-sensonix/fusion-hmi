@@ -16,7 +16,7 @@ import {
 } from "@mantine/core";
 import {LineGraph} from "../components/graphs/LineGraph.tsx";
 import {CompositeGraph} from "../components/graphs/CompositeGraph.tsx";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Link, useParams} from "react-router-dom";
 import {IconMenu2} from "@tabler/icons-react";
 import {useDisclosure} from "@mantine/hooks";
@@ -35,9 +35,7 @@ export function ConfigurationPage() {
  const [inputValue, setInputValue] = useState('');
  const [optionValues, setOptionValues] = useState<{ signal: string }[]>();
  const [selectedRows, setSelectedRows] = useState<string[]>([]);
- const fetchedData = () => {
-  return ['$asdfasdf/asdf', '/a-asdf-asdf/c-asdf-asdf/c-asfasdf/asdf', '$asdfasdfadf/sdf', '$asdf/asdf']
- }
+
 
  const [replicateRemoteSignal, {
   data: replicateSignalData,
@@ -57,6 +55,21 @@ export function ConfigurationPage() {
     }
    }
  );
+
+ const {
+  data: remoteSignalsListData,
+  error: remoteSignalsListError,
+  loading: remoteSignalsListLoading
+ } = useQuery(
+   getFilteredSignalsQuery,
+   {
+    variables: {
+     parentGroup: `/remote/a-trak-ou56/c-2000/c-2001/`,
+     filter: {key: "__", exists: false}
+    },
+    fetchPolicy: 'cache-and-network',
+   }
+ );
  // const [graphData, setGraphData] = useState([{x: 0, y: 0}]);
  const handleInputChange = (value: any) => {
   setInputValue(value);
@@ -65,16 +78,17 @@ export function ConfigurationPage() {
   try {
    const existingSignals = new Set(optionValues?.map(option => option?.signal));
    if (!existingSignals.has(inputValue)) {
-    setOptionValues(
-      [...(optionValues ?? []),
-       {signal: inputValue}
-      ]
-    );
+
     await replicateRemoteSignal({
      variables: {
       signal: inputValue,
      }
     })
+    setOptionValues(
+      [...(optionValues ?? []),
+       {signal: inputValue}
+      ]
+    );
    }
   } catch (error) {
    console.error(error);
@@ -82,26 +96,33 @@ export function ConfigurationPage() {
   setInputValue('');
  }
 
+ useEffect(() => {
+  setOptionValues(
+    [...(optionValues ?? []),
+     ...remoteSignalsListData?.getFilteredSignals?.map((remoteSignal) => ({signal: remoteSignal?.fullPath})) ?? []
+    ]
+  );
+ }, []);
 
  const rows = optionValues?.map((element) => (
    <Table.Tr
-     key={element.signal}
-     bg={selectedRows.includes(element.signal) ? 'var(--mantine-color-blue-light)' : undefined}
+     key={element?.signal}
+     bg={selectedRows.includes(element?.signal) ? 'var(--mantine-color-blue-light)' : undefined}
    >
     <Table.Td>
      <Checkbox
        aria-label="Select row"
-       checked={selectedRows.includes(element.signal)}
+       checked={selectedRows.includes(element?.signal)}
        onChange={(event) =>
          setSelectedRows(
            event.currentTarget.checked
-             ? [...selectedRows, element.signal]
-             : selectedRows.filter((signal) => signal !== element.signal)
+             ? [...selectedRows, element?.signal]
+             : selectedRows.filter((signal) => signal !== element?.signal)
          )
        }
      />
     </Table.Td>
-    <Table.Td>{element.signal}</Table.Td>
+    <Table.Td>{element?.signal}</Table.Td>
    </Table.Tr>
  ));
  return (
@@ -120,6 +141,13 @@ export function ConfigurationPage() {
       <ActionIcon onClick={toggle} size={"xl"}>
        <IconMenu2 stroke={2}/>
       </ActionIcon>
+      <Button
+        component={Link} // Renders the Button as an <a> tag
+        style={{color: "#000000", position: "absolute", right: 0}}
+        to={`/modules/${templateId}`} // The URL for your settings page
+      >
+       Back To Dashboard
+      </Button>
      </AppShell.Header>
      <AppShell.Navbar p="md">
       <NavLink
