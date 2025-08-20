@@ -59,7 +59,8 @@ export function ConfigurationPage() {
  const {
   data: remoteSignalsListData,
   error: remoteSignalsListError,
-  loading: remoteSignalsListLoading
+  loading: remoteSignalsListLoading,
+  refetch: remoteSignalsListRefetch,
  } = useQuery(
    getFilteredSignalsQuery,
    {
@@ -97,6 +98,7 @@ export function ConfigurationPage() {
  }
 
  useEffect(() => {
+  remoteSignalsListRefetch();
   setOptionValues(
     [...(optionValues ?? []),
      ...remoteSignalsListData?.getFilteredSignals?.map((remoteSignal) => ({signal: remoteSignal?.fullPath})) ?? []
