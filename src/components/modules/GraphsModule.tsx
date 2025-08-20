@@ -116,7 +116,7 @@ export function GraphsModule(props) {
    if (!signalPaths.includes(inputPathValue) && inputPathValue && !inputPathValue.endsWith('/') && typeof inputValue === 'string') {
     // TODO: store all signals
     // setSignalPaths([...signalPaths, inputPathValue.slice(7)]);
-    setSignalPaths([inputPathValue.slice(7)]);
+    setSignalPaths(["/" + inputPathValue.split('/').slice(2).join('/')]);
    }
 
   } catch (error) {
