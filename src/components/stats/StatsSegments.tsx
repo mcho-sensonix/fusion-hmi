@@ -1,14 +1,16 @@
 import { IconArrowUpRight, IconDeviceAnalytics } from '@tabler/icons-react';
 import { Box, Group, Paper, Progress, SimpleGrid, Text } from '@mantine/core';
 import classes from './StatsSegments.module.css';
+import {useHomePageStats} from "../../pages/useHomePageStats.ts";
 
-const data = [
- { label: 'Mobile', count: '204,001', part: 59, color: '#47d6ab' },
- { label: 'Desktop', count: '121,017', part: 35, color: '#03141a' },
- { label: 'Tablet', count: '31,118', part: 6, color: '#4fcdf7' },
-];
+// const data = [
+//  { label: 'Mobile', count: '204,001', part: 59, color: '#47d6ab' },
+//  { label: 'Desktop', count: '121,017', part: 35, color: '#03141a' },
+//  { label: 'Tablet', count: '31,118', part: 6, color: '#4fcdf7' },
+// ];
 
 export function StatsSegments() {
+    const data = useHomePageStats();
  const segments = data.map((segment) => (
    <Progress.Section value={segment.part} color={segment.color} key={segment.color}>
     {segment.part > 10 && <Progress.Label>{segment.part}%</Progress.Label>}
@@ -35,7 +37,7 @@ export function StatsSegments() {
     <Group justify="space-between">
      <Group align="flex-end" gap="xs">
       <Text fz="xl" fw={700}>
-       345,765
+       This Device
       </Text>
       <Text c="teal" className={classes.diff} fz="sm" fw={700}>
        <span>18%</span>

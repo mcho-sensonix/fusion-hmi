@@ -87,7 +87,7 @@ export function ConfigurationPage() {
     })
     setOptionValues(
       [...(optionValues ?? []),
-       {signal: inputValue}
+       {cpuSignal: inputValue}
       ]
     );
    }
