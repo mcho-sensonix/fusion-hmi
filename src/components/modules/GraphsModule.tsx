@@ -26,6 +26,8 @@ import 'react-simple-keyboard/build/css/index.css';
 
 export function GraphsModule(props) {
  const [inputValue, setInputValue] = useState('');
+ // @ts-ignore
+ const [startTime, setStartTime] = useState(new Date(new Date() - ( 1000 * 60 * 60 * 5)));
  const [graphData, setGraphData] = useState([]);
  const [inputPathValue, setInputPathValue] = useState<string>('');
  const [optionValues, setOptionValues] = useState([{}]);
@@ -55,7 +57,8 @@ export function GraphsModule(props) {
    getSignalsQuery,
    {
     variables: {
-     signals: signalPaths
+     signals: signalPaths,
+     sampleInput: {range_selection: {start_time: startTime}}
     },
     pollInterval: isPollingChecked ? 1000 : 0, // 0 -> doesn't poll, 1000 -> polls every second
     skip: signalPaths?.length == 0
@@ -159,7 +162,7 @@ export function GraphsModule(props) {
   const fetchData = async () => {
 
    try {
-    const graphDataValues = signalsData?.getSignals?.[0]?.sample_results_for_graph?.samples?.map(item => {
+    const graphDataValues = signalsData?.getSignals?.[0]?.samples?.samples?.map(item => {
      const key = signalsData?.getSignals?.[0]?.fullPath
      return item?.[key]
     })?.filter(item => item != 'NaN' && !isNaN(item)) ?? [];
@@ -180,7 +183,7 @@ export function GraphsModule(props) {
   };
 
   if (isPollingChecked) {
-   const interval = setInterval(fetchData, 2000); // Call the async function every second
+   // const interval = setInterval(fetchData, 2000); // Call the async function every second
 
    // Cleanup function
    return () => clearInterval(interval);
@@ -209,7 +212,7 @@ export function GraphsModule(props) {
     <Grid.Col span={6}>
      {
       <LineGraph
-        data={signalsData?.getSignals?.[0]?.sample_results_for_graph?.samples}
+        data={signalsData?.getSignals?.[0]?.samples?.samples}
         name={signalsData?.getSignals?.[0]?.fullPath ?? 'null'}/>
      }
     </Grid.Col>

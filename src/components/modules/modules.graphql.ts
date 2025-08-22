@@ -32,6 +32,7 @@ export const getSignalQuery = gql`
 export const getSignalsQuery = gql`
     query getSignals(
         $signals: [SignalPath]!
+        $sampleInput: GetSamplesRequestInput
     ) {
         getSignals(signals: $signals) {
             id
@@ -43,9 +44,8 @@ export const getSignalsQuery = gql`
                 arrival_timestamp
                 value
             }
-            sample_results_for_graph{
+            samples (GetSamplesRequestInput: $sampleInput ) {
                 samples
-                start_time
             }
 
         }
@@ -59,9 +59,8 @@ export const getFilteredSignalsQuery = gql`
             name
             properties
             fullPath
-            sample_results_for_graph{
+            samples{
                 samples
-                start_time
             }
             MostRecentSample {
                 value
