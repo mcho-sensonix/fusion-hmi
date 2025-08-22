@@ -118,8 +118,9 @@ export function GraphsModule(props) {
    // );
    if (!signalPaths.includes(inputPathValue) && inputPathValue && !inputPathValue.endsWith('/') && typeof inputValue === 'string') {
     // TODO: store all signals
-    // setSignalPaths([...signalPaths, inputPathValue.slice(7)]);
-    setSignalPaths(["/" + inputPathValue.split('/').slice(2).join('/')]);
+    setSignalPaths([...signalPaths, inputPathValue]);
+    // setSignalPaths(["/" + inputPathValue.split('/').slice(2).join('/')]);
+    // setSignalPaths(["/" + inputPathValue.split('/').slice(2).join('/')]);
    }
 
   } catch (error) {
@@ -186,7 +187,7 @@ export function GraphsModule(props) {
    // const interval = setInterval(fetchData, 2000); // Call the async function every second
 
    // Cleanup function
-   return () => clearInterval(interval);
+   // return () => clearInterval(interval);
   }
 
 

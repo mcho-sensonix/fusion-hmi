@@ -48,7 +48,7 @@ export function StatsSegments() {
     </Group>
 
     <Text c="dimmed" fz="sm">
-     Page views compared to previous month
+     Performance and usage metrics
     </Text>
 
     <Progress.Root size={34} classNames={{ label: classes.progressLabel }} mt={40}>
