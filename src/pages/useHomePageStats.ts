@@ -2,13 +2,13 @@ import {useSignal} from "../hooks/useSignal.ts";
 
 
 export function useHomePageStats() {
-    const {signal: cpuSignal, lastValue: CPULastValue} = useSignal({signalPath: '/local/hardwareMetric/cpu', pollInterval: 1000})
-    const {signal: memSignal, lastValue: memLastValue} = useSignal({signalPath: '/local/hardwareMetric/memory', pollInterval: 1000})
-    const {signal: diskSignal, lastValue: diskLastValue} = useSignal({signalPath: '/local/hardwareMetric/disk', pollInterval: 1000})
+    const {signal: cpuSignal, lastValue: CPULastValue} = useSignal({signalPath: '$solid/hardwareMetrics/cpu', pollInterval: 1000})
+    const {signal: memSignal, lastValue: memLastValue} = useSignal({signalPath: '$solid/hardwareMetrics/memory', pollInterval: 1000})
+    const {signal: diskSignal, lastValue: diskLastValue} = useSignal({signalPath: '$solid/hardwareMetrics/disk', pollInterval: 1000})
 
     const totalMemory = parseInt(memSignal?.properties?.totalMemory),
         // @ts-expect-error ts can't infer that totalMemory is a number
-        memPercent = (parseInt(memLastValue) / parseInt(totalMemory)).toFixed(2) * 100,
+        memPercent = Math.round((parseInt(memLastValue) / parseInt(totalMemory)).toFixed(2) * 100),
         totalDisk = parseInt(diskSignal?.properties?.info.totalGb)
 
 

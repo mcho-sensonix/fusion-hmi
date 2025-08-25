@@ -12,19 +12,14 @@ import {
  ActionIcon,
  NavLink,
  Text,
- Paper
 } from "@mantine/core";
-import {LineGraph} from "../components/graphs/LineGraph.tsx";
-import {CompositeGraph} from "../components/graphs/CompositeGraph.tsx";
 import React, {useEffect, useState} from "react";
 import {Link, useParams} from "react-router-dom";
 import {IconMenu2} from "@tabler/icons-react";
 import {useDisclosure} from "@mantine/hooks";
-import {Router} from "../Router.tsx";
-import {useLazyQuery, useQuery, useMutation} from "@apollo/client";
+import { useQuery, useMutation} from "@apollo/client";
 import {
  getFilteredSignalsQuery,
- getSignalsQuery,
  replicateRemoteSignalQuery
 } from "../components/modules/modules.graphql.ts";
 
@@ -65,7 +60,7 @@ export function ConfigurationPage() {
    getFilteredSignalsQuery,
    {
     variables: {
-     parentGroup: `/remote/a-trak-ou56/c-2000/c-2001/`,
+     parentGroup: `/a-trak-ou56/c-2000/c-2001/fa51abf1-c0d2-4eb6-bc14-a0945581fa61/`,
      filter: {key: "__", exists: false}
     },
     fetchPolicy: 'cache-and-network',
