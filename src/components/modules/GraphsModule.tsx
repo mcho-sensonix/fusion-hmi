@@ -48,7 +48,7 @@ export function GraphsModule(props) {
    getFilteredSignalsQuery,
    {
     variables: {
-     parentGroup: `/remote/a-trak-ou56/c-2000/c-2001/fa51abf1-c0d2-4eb6-bc14-a0945581fa61/`,
+     parentGroup: `$self/`,
      filter: {key: "__", exists: false}
     }
    }

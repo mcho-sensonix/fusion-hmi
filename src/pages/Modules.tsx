@@ -1,35 +1,36 @@
-import React, {useState, useRef, useEffect} from "react";
+import React from "react";
 import {useDisclosure} from "@mantine/hooks";
-import {ActionIcon, AppShell, Input, Button, Grid, Text, Group, GridCol, Paper, NavLink} from "@mantine/core";
-// import Counter from "../components/counter/Counter.tsx";
-import {CompositeGraph} from "../components/graphs/CompositeGraph.tsx";
-import {LineGraph} from "../components/graphs/LineGraph.tsx";
+import {
+    ActionIcon,
+    AppShell,
+    Grid,
+    Text,
+    Image,
+    NavLink,
+    Avatar,
+    Card, Group
+} from "@mantine/core";
+import PartCountingAvatarImg from '../assets/part-counting-avatar.png'
 import {IconMenu2} from "@tabler/icons-react";
 import {Link} from "react-router-dom";
-import {StatsGrid} from "../components/stats/StatsGrid.tsx";
-import {StatsSegments} from "../components/stats/StatsSegments.tsx";
-import {Router} from "../Router.tsx";
-import {gql} from "@urql/core";
-import {useLazyQuery, useQuery} from "@apollo/client";
-import {getFilteredGroupsQuery, getSignalsQuery} from "../components/modules/modules.graphql.ts";
+import {useQuery} from "@apollo/client";
+import {getFilteredGroupsQuery} from "../components/modules/modules.graphql.ts";
 
 export function ModulesPage() {
  const [opened, {toggle}] = useDisclosure();
 
  const {data, error, loading} = useQuery(getFilteredGroupsQuery, {
   variables: {
-   parentGroup: '/remote/a-trak-ou56/c-2000/c-2001/fa51abf1-c0d2-4eb6-bc14-a0945581fa61/',
+   parentGroup: '$asset_twin/modules/',
    filter: {key: "__", exists: false}
   }
  })
 
- const cardsData = [
-  {id: 1, title: "Module 1", desription: ""},
-  {id: 2, title: "Module 2", description: ""},
-  {id: 3, title: "Module 3", description: ""},
-  {id: 4, title: "Module 4", desription: ""},
-  {id: 5, title: "Module 1", desription: ""},
-  {id: 6, title: "Module 1", desription: ""}];
+ const cardsData = data?.getFilteredGroups?.map(module => ({
+     id: module.name,
+     title: module.properties?.['displayName'] || module.name,
+     description: module.properties?.['description'] ?? ''
+ })) ?? [];
  return (
    // <Counter/>
    <>
@@ -70,11 +71,19 @@ export function ModulesPage() {
       <Grid>
        {cardsData.map((card, index) => (
          <Grid.Col key={index} span={{base: 12, sm: 6, md: 4, lg: 3}}>
-          <Paper component={Link} to={`/modules/${card.id}`} shadow="sm" radius="md" withBorder>
-           {/* Card content goes here */}
-           <h3>{card.title}</h3>
-           <p>{card.description}</p>
-          </Paper>
+          <Card component={Link} to={`/modules/${card.id}`} shadow="sm" radius="md" withBorder>
+              <Card.Section>
+                  <Image
+                      src={PartCountingAvatarImg}
+                      height={160}
+                      alt="Part Counting"
+                  />
+              </Card.Section>
+              <Group justify="space-between" mt="md" mb="xs">
+                <Text fw={500} >{card.title}</Text>
+              </Group>
+              <Text size="sm" c="dimmed">{card.description}</Text>
+          </Card>
          </Grid.Col>
        ))}
       </Grid>

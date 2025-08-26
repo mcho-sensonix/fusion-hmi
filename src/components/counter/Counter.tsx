@@ -1,5 +1,5 @@
 // import './Counter.css';
-import {Group, Button, Text, Grid, Center, GridCol, ActionIcon} from '@mantine/core';
+import {Group, Button, Text, Grid, Center, GridCol, ActionIcon, LoadingOverlay} from '@mantine/core';
 import React, {useEffect, useState} from 'react';
 import {IconCaretUpFilled, IconCaretDownFilled} from '@tabler/icons-react';
 import {useLazyQuery, useMutation, useQuery} from "@apollo/client";
@@ -8,11 +8,11 @@ import {getFilteredSignalsQuery, getSignalsQuery, insertSampleQuery} from "../mo
 function Counter() {
  const [count, setCount] = useState(0);
 
- const [getSignalsData, {data: signalsData, error: signalsError, loading: signalsLoading}] = useLazyQuery(
+ const {data: signalsData, error: signalsError, loading: signalsLoading} = useQuery(
    getSignalsQuery,
    {
     variables: {
-     signals: `/a-trak-ou56/c-2000/c-2001/fa51abf1-c0d2-4eb6-bc14-a0945581fa61/Sensor1/ZV`
+     signals: `$asset_twin/modules/part-counting/part-count`
     },
     // pollInterval: 5000
    }
@@ -32,7 +32,7 @@ function Counter() {
   setCount(() => newCount);
   await insertSample({
    variables: {
-    signal: '/a-trak-ou56/c-2000/c-2001/fa51abf1-c0d2-4eb6-bc14-a0945581fa61/Sensor1/ZV',
+    signal: '$asset_twin/modules/part-counting/part-count',
     sample: {value: (newCount).toString(), timestamp: new Date()},
    }
   });
@@ -42,7 +42,7 @@ function Counter() {
   setCount(() => newCount);
   await insertSample({
    variables: {
-    signal: '/a-trak-ou56/c-2000/c-2001/fa51abf1-c0d2-4eb6-bc14-a0945581fa61/Sensor1/ZV',
+    signal: '$asset_twin/modules/part-counting/part-count',
     sample: {value: newCount.toString(), timestamp: new Date()},
     __typename:	"SignalMostRecentSample"
 
@@ -53,7 +53,7 @@ function Counter() {
   setCount(0)
   await insertSample({
    variables: {
-    signal: '/a-trak-ou56/c-2000/c-2001/fa51abf1-c0d2-4eb6-bc14-a0945581fa61/Sensor1/ZV',
+    signal: '$asset_twin/modules/part-counting/part-count',
     sample: {value: "0", timestamp: new Date()},
    }
   });
@@ -62,7 +62,7 @@ function Counter() {
  useEffect(() => {
   // getSignalsData({
   //  variables: {
-  //   signals: ['/a-trak-ou56/c-2000/c-2001/fa51abf1-c0d2-4eb6-bc14-a0945581fa61/Sensor1/ZV',]
+  //   signals: ['$asset_twin/modules/part-counting/part-count',]
   //  }, fetchPolicy: 'cache-and-network'
   // });
  }, [count]);
@@ -73,8 +73,10 @@ function Counter() {
     <Grid.Col span={12}>
      <h1>Line 1 Station 1 Part Count</h1>
     </Grid.Col>
-    <Grid.Col span={6}><Text
-      size={"3em"}>Count: {signalsData?.getSignals?.[0]?.MostRecentSample?.value ?? count}</Text></Grid.Col>
+    <Grid.Col span={6}>
+        <LoadingOverlay visible={signalsLoading} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
+        <Text size={"3em"}>Count: {signalsData?.getSignals?.[0]?.MostRecentSample?.value ?? count}</Text>
+    </Grid.Col>
     <Grid.Col span={6}>
      <Grid.Col span={6}>
       <ActionIcon size="xl" style={{color: "#000000"}} onClick={increment}>
@@ -86,11 +88,11 @@ function Counter() {
        <IconCaretDownFilled/>
       </ActionIcon>
      </Grid.Col>
+    </Grid.Col>
 
 
      <Button size="xl" onClick={reset} style={{color: "#000000"}}>Reset</Button>
 
-    </Grid.Col>
 
    </Grid>
  );
