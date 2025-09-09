@@ -17,7 +17,7 @@ import React, {useEffect, useState} from "react";
 import {Link, useParams} from "react-router-dom";
 import {IconMenu2} from "@tabler/icons-react";
 import {useDisclosure} from "@mantine/hooks";
-import { useQuery, useMutation} from "@apollo/client";
+import {useQuery, useMutation} from "@apollo/client";
 import {
  getFilteredSignalsQuery,
  replicateRemoteSignalQuery
@@ -28,7 +28,7 @@ export function ConfigurationPage() {
 
  const [opened, {toggle}] = useDisclosure();
  const [inputValue, setInputValue] = useState('');
- const [optionValues, setOptionValues] = useState<{ signal: string }[]>();
+ const [optionValues, setOptionValues] = useState<{ signal?: string, cpuSignal?: string }[]>();
  const [selectedRows, setSelectedRows] = useState<string[]>([]);
 
 
@@ -101,8 +101,9 @@ export function ConfigurationPage() {
   );
  }, []);
 
- const rows = optionValues?.map((element) => (
-   <Table.Tr
+ const rows = optionValues?.map((element) => {
+  if (element?.signal) {
+   return <Table.Tr
      key={element?.signal}
      bg={selectedRows.includes(element?.signal) ? 'var(--mantine-color-blue-light)' : undefined}
    >
@@ -110,18 +111,22 @@ export function ConfigurationPage() {
      <Checkbox
        aria-label="Select row"
        checked={selectedRows.includes(element?.signal)}
-       onChange={(event) =>
+       onChange={(event) => {
+        if (element?.signal) {
          setSelectedRows(
            event.currentTarget.checked
              ? [...selectedRows, element?.signal]
              : selectedRows.filter((signal) => signal !== element?.signal)
          )
+        }
+       }
        }
      />
     </Table.Td>
     <Table.Td>{element?.signal}</Table.Td>
    </Table.Tr>
- ));
+  }
+ });
  return (
    <>
     <AppShell
