@@ -166,6 +166,13 @@ export function ConfigurationPage() {
         onClick={toggle}
         // leftSection={<IconHome2 size={16} stroke={1.5} />}
       />
+      <NavLink
+        component={Link}
+        to="/data"
+        label="Data"
+        onClick={toggle}
+        // leftSection={<IconHome2 size={16} stroke={1.5} />}
+      />
      </AppShell.Navbar>
      <AppShell.Main>
 

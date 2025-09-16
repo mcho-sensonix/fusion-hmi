@@ -1,0 +1,63 @@
+.sensorNameContainer {
+  text-align: left;
+}
+
+.sensorNameContainerMobile {
+  text-align: left;
+  display: inline-table;
+}
+
+.sensorNameInnerContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-content: center;
+}
+.sensorNameInnerContainer :global(div.ui.header) {
+  margin: 0;
+}
+
+.sensorNameContainerMobile .sensorNameInnerContainer {
+  justify-content: center;
+  padding-top: 0.5em;
+}
+
+.sensorNameMobile {
+  width: 100%;
+  text-align: center;
+  font-size: 1.4em;
+  font-weight: bold;
+}
+.sensorIdLabel {
+  margin-left: 1em;
+  font-size: 0.75em;
+}
+
+.sensorNameMobile span:last-child {
+  margin-top: 2px;
+}
+
+.sensorMetaTitle {
+  width: 0;
+  display: flex;
+  white-space: nowrap;
+}
+
+.sensorMetaTitleMobile {
+  width: 0;
+  display: flex;
+  white-space: nowrap;
+  font-size: 0.8em;
+}
+
+.mobileTableHolder {
+  overflow-x: auto;
+}
+
+.sensorObjectContainer :global(.ui.segment) {
+  border-top: 0px;
+}
+
+.sensorDescription {
+  margin-top: 1em;
+}

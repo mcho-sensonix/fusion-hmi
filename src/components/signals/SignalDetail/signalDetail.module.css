@@ -1,0 +1,24 @@
+
+
+.valueSectionWrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.unit {
+    font-weight: 400;
+    font-variant-position: sub;
+    font-size: .95em;
+}
+.valueSection {
+    border-radius: .5em;
+}
+.lastValueTime {
+    display: flex;
+    flex-direction: column;
+    font-size: .85em;
+    line-height: .85em;
+    align-items: center;
+}
