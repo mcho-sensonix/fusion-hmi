@@ -14,7 +14,7 @@ function Counter() {
     variables: {
      signals: `$asset_twin/modules/part-counting/part-count`
     },
-    // pollInterval: 5000
+    pollInterval: 5000
    }
  );
 
