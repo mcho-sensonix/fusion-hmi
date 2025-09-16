@@ -1,17 +1,18 @@
 import React from 'react';
 import {useCachedOrFetchGroup} from "../useCachedOrFetchGroup.ts";
 import {getParentGroupPathFromGroupPath} from "../helpers.ts";
-import {ActionIcon, Breadcrumbs, Button, Pill} from "@mantine/core";
+import {Breadcrumbs, Button} from "@mantine/core";
 import { IconRecharging } from "@tabler/icons-react";
 import {IconCast} from "@tabler/icons-react";
+import type {Group} from "../types.ts";
 
 export type SensorStubProps = {
-  group?: unknown | null;
+  group?: Group | null;
   withGateway: boolean;
 };
 export function SensorCrumb({ group, withGateway = false }: SensorStubProps) {
-  const { group: parentGroup, loading } = useCachedOrFetchGroup(
-    getParentGroupPathFromGroupPath(group?.fullPath),
+  const { group: parentGroup } = useCachedOrFetchGroup(
+    getParentGroupPathFromGroupPath(group?.fullPath ),
     { skip: !withGateway }
   );
   return (
@@ -19,12 +20,12 @@ export function SensorCrumb({ group, withGateway = false }: SensorStubProps) {
       {withGateway && (
         <>
           <Breadcrumbs>
-            <Button basic size={'small'} leftSection={
+            <Button size={'small'} leftSection={
               <IconCast name={'microchip'} color={'blue'} />}>
               {parentGroup?.properties?.['displayName'] ?? parentGroup?.name}
             </Button>
           </Breadcrumbs>
-          <Breadcrumbs />
+            <Breadcrumbs >/</Breadcrumbs>
         </>
       )}
       <Breadcrumbs>

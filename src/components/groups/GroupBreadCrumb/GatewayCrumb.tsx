@@ -2,14 +2,14 @@ import React from 'react';
 import { useFragment } from '@apollo/client';
 import {ActionIcon, Pill, Button} from "@mantine/core";
 import {IconRouter} from "@tabler/icons-react";
+import type {Group} from "../types.ts";
 export type GatewayStubProps = {
-  group?: unknown | null;
+  group?: Group | null;
 };
 export function GatewayCrumb({ group }: GatewayStubProps) {
-  const gatewayUid = group?.name;
 
 
-  const gatewayName = group?.properties?.['displayName'] ?? group?.name ?? null;
+  const gatewayName = group?.properties?.['displayName'] as string ?? group?.name ?? null;
 
 
   return (

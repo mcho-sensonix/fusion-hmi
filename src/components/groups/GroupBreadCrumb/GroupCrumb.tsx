@@ -4,10 +4,11 @@ import {
   GatewayCrumb,
   SensorCrumb,
 } from '../../groups';
-import {ActionIcon, Breadcrumbs, Button, Pill} from "@mantine/core";
+import { Breadcrumbs, Button} from "@mantine/core";
 import {IconSitemapFilled} from "@tabler/icons-react";
+import type {Group} from "../types.ts";
 export type GroupStubProps = {
-  group?: unknown | null;
+  group?: Group | null;
   withParent?: boolean;
 };
 export function GroupCrumb({ group, withParent = false }: GroupStubProps) {

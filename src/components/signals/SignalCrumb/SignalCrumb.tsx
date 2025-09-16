@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { SignalDetail } from '../SignalDetail';
-import type {StatusColor} from "../types.ts";
-import {ActionIcon, Breadcrumbs, Pill, Popover} from "@mantine/core";
+import type {Signal, StatusColor} from "../types.ts";
+import {ActionIcon, Breadcrumbs, Popover} from "@mantine/core";
 
 export type SignalCrumbProps = {
-  signal: unknown;
+  signal: Signal;
   withBackground?: boolean;
   withDivider?: boolean;
   withIcon?: string;
@@ -14,21 +14,18 @@ export type SignalCrumbProps = {
 export function SignalCrumb({
   signal,
   withIcon,
-  withBackground = true,
   withDivider = false,
   withStatus,
 }: SignalCrumbProps) {
-  const [popupOpen, setPopupOpen] = useState(false);
   const displayName = signal?.properties.displayName
     ? signal?.properties?.displayName
     : signal?.name;
-  const Wrapper = withBackground ? Pill : <div />;
   return (
     <div style={{ color: 'white' }}>
       <Popover>
           <Popover.Target>
-          <Wrapper
-            circular
+          <div
+
             style={{
               display: 'flex',
               backgroundColor: withStatus
@@ -44,7 +41,7 @@ export function SignalCrumb({
                   marginLeft: '.5em',
                   color: 'white',
                 }}
-              />
+              >/</Breadcrumbs>
             )}
             {/*{withStatus && (*/}
             {/*  <div*/}
@@ -60,15 +57,13 @@ export function SignalCrumb({
             {/*)}*/}
             {withIcon && <ActionIcon name={withIcon} />}
             <Breadcrumbs
-              as={'span'}
-              active
               style={{ color: 'white' }}
 
               // onMouseEnter={() => setPopupOpen(true)}
             >
               {displayName}
             </Breadcrumbs>
-          </Wrapper>
+          </div>
           </Popover.Target>
         {/*on={'click'}*/}
         {/*open={popupOpen}*/}

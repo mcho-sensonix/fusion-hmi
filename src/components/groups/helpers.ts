@@ -9,7 +9,8 @@ export function getSiteIdFromPath(path: string): string | null {
 }
 
 export function getParentGroupPathFromGroupPath(
-  path: string | undefined
+  path: string | undefined | null
 ): string | null {
-  return path?.split('/').toSpliced(-2, 1).join('/') ?? null;
+  // @ts-expect-error to Spliced
+    return path?.split('/')?.toSpliced(-2, 1).join('/') ?? null;
 }

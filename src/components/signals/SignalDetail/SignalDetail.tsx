@@ -1,11 +1,12 @@
 import styles from './signalDetail.module.css';
-import React, { MouseEventHandler, useState } from 'react';
+import React, {type MouseEventHandler, useState } from 'react';
 import { DateTime } from 'luxon';
 import {Popover, Table, Text} from "@mantine/core";
 import {getDisplayableProperties} from "../helpers.ts";
 import {IconCopy} from "@tabler/icons-react";
+import type {Signal} from "../types.ts";
 export type SignalDetailProps = {
-  signal: unknown;
+  signal: Signal;
   onMouseLeave?: MouseEventHandler<HTMLDivElement>;
   onMouseEnter?: MouseEventHandler<HTMLDivElement>;
 };
@@ -81,7 +82,7 @@ export function SignalDetail({
         <div
           style={{ fontSize: '.75em', lineHeight: '.75em', marginTop: '1em' }}
         >
-          <Table  compact={'very'}>
+          <Table >
             <Table.Thead>
               <Table.Th>Property</Table.Th>
               <Table.Th>Value</Table.Th>

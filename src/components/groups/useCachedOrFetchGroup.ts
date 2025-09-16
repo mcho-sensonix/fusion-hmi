@@ -2,7 +2,7 @@ import {  useQuery } from '@apollo/client';
 import {GET_GROUP_BY_PATH} from "./getGroup.gateway.graphql.ts";
 
 export function useCachedOrFetchGroup(
-  groupPath: string | undefined,
+  groupPath: string | undefined | null,
   options
 ) {
   const { data, loading } = useQuery(GET_GROUP_BY_PATH, {
