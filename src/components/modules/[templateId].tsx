@@ -10,6 +10,7 @@ import {StatsGrid} from "../stats/StatsGrid.tsx";
 import {StatsSegments} from "../stats/StatsSegments.tsx";
 import {useDisclosure} from "@mantine/hooks";
 import Counter from "../counter/Counter.tsx";
+import {NavBar} from "../NavBar/NavBar.tsx";
 
 const modulesData = [
  {id: 'graph', title: "Graph", desription: "", type: "graph"},
@@ -24,52 +25,11 @@ export function ModuleDetailsPage() {
  const moduleData = templateId ? modulesData.find((module) => module.id == templateId) : null;
 
  return (
-   <>
-    <AppShell
-      header={{height: 60}}
-      navbar={{
-       width: 300,
-       breakpoint: 1300,
-       collapsed: {mobile: !opened},
-      }}
-      padding="md"
-    >
-     <AppShell.Header>
-      <ActionIcon onClick={toggle} size={"xl"}>
-       <IconMenu2 stroke={2}/>
-      </ActionIcon>
-      <Button
-        component={Link} // Renders the Button as an <a> tag
-        style={{color: "#000000", position: "absolute", right: 0}}
-        to={`/modules/${moduleData?.id}/configuration`} // The URL for your settings page
-      >
-       Configure
-      </Button>
-     </AppShell.Header>
-     <AppShell.Navbar p="md">
-      <NavLink
-        component={Link}
-        to="/"
-        label="Overview"
-        onClick={toggle}
-        // leftSection={<IconHome2 size={16} stroke={1.5} />}
-      />
-      <NavLink
-        component={Link}
-        to="/modules"
-        label="Modules"
-        onClick={toggle}
-        // leftSection={<IconHome2 size={16} stroke={1.5} />}
-      />
-     </AppShell.Navbar>
-     <AppShell.Main>
-
+   <NavBar>
       {moduleData?.type == "graph" && <GraphsModule/>}
       {moduleData?.type == "gauge" && <GaugesModule/>}
       {moduleData?.type == "part-counting" && <Counter />}
-     </AppShell.Main>
-    </AppShell>
-   </>
+   </NavBar>
 
 
  );
